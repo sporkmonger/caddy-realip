@@ -51,6 +51,8 @@ func (m *module) ServeHTTP(w http.ResponseWriter, req *http.Request) (int, error
 	}
 
 	if hVal := req.Header.Get(m.Header); hVal != "" {
+		req.Header.Set(m.Header+"-Original", hVal)
+
 		//restore original host:port format
 		parts := regexp.MustCompile(`,\s*`).Split(hVal, -1)
 		ip := net.ParseIP(parts[len(parts)-1])
